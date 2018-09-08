@@ -1,5 +1,6 @@
 package examples.android.vish.com.chatbot.db.dao
 
+import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
@@ -14,5 +15,5 @@ abstract class ConversationDao {
 
 
     @Query("SELECT * from Conversation")
-    abstract fun getConversation();
+    abstract fun getConversation(): LiveData<List<Conversation>>;
 }

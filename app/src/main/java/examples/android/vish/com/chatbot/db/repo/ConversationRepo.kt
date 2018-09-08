@@ -1,5 +1,7 @@
 package examples.android.vish.com.chatbot.db.repo
 
+import android.arch.lifecycle.LiveData
+import android.content.Context
 import examples.android.vish.com.chatbot.db.dao.ConversationDao
 import examples.android.vish.com.chatbot.db.model.Conversation
 import examples.android.vish.com.chatbot.util.AppExecutor
@@ -8,11 +10,11 @@ class ConversationRepo private constructor() {
 
 
     private lateinit var conversationDao: ConversationDao
-
+    private lateinit var executor: AppExecutor
 
     private lateinit var githubNetworkRepo: ConversationNetworkRepo
 
-    private fun startConversationNetworkRepo(executor: AppExecutor) {
+    private fun startConversationNetworkRepo() {
         val data = githubNetworkRepo.currentPrListLiveData
         data.observeForever { conversation ->
             executor.diskIO().execute {
@@ -23,13 +25,17 @@ class ConversationRepo private constructor() {
     }
 
     private fun insertUserMsg(userMsg: String) {
-        val conversation = Conversation(userMsg)
-        conversationDao.insert(conversation)
+
+        executor.diskIO().execute {
+            val conversation = Conversation(userMsg)
+            conversationDao.insert(conversation)
+        }
     }
 
-    fun fetchResponse(userMsg: String) {
+    fun fetchResponse(context: Context, userMsg: String): LiveData<List<Conversation>> {
         insertUserMsg(userMsg)
-        githubNetworkRepo.getBotResponse(userMsg)
+        githubNetworkRepo.getBotResponse(context, userMsg)
+        return conversationDao.getConversation()
     }
 
     companion object {
@@ -47,7 +53,8 @@ class ConversationRepo private constructor() {
             val instance = ConversationRepo()
             instance.conversationDao = conversationDao
             instance.githubNetworkRepo = conversationNetworkRepo
-            instance.startConversationNetworkRepo(executor)
+            instance.executor = executor
+            instance.startConversationNetworkRepo()
             return instance
         }
 

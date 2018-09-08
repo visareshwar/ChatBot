@@ -4,13 +4,14 @@ import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.content.Context
+import examples.android.vish.com.chatbot.db.dao.ConversationDao
 import examples.android.vish.com.chatbot.db.model.Conversation
 
 @Database(entities = arrayOf(Conversation::class), version = 1, exportSchema = false)
 abstract class BotDataBase : RoomDatabase() {
 
     // The associated DAOs for the database
-    abstract val botDatabase: BotDataBase
+    abstract val conversationDao: ConversationDao
 
     companion object {
         private const val DATABASE_NAME = "conversation"

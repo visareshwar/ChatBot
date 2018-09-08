@@ -5,13 +5,10 @@ import android.arch.persistence.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 @Entity
-data class Conversation(
-
-
+class Conversation(
         @SerializedName("message") val message: String, // Same as before! Doing great
-
         val isBot: Boolean = false
-){
-        @PrimaryKey(autoGenerate = true)
-        val id: Int? =null
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int? = null
 }
