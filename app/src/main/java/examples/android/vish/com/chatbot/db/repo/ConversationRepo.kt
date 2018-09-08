@@ -1,7 +1,6 @@
 package examples.android.vish.com.chatbot.db.repo
 
 import android.arch.lifecycle.LiveData
-import android.content.Context
 import android.text.TextUtils
 import examples.android.vish.com.chatbot.db.dao.ConversationDao
 import examples.android.vish.com.chatbot.db.model.Conversation
@@ -33,10 +32,10 @@ class ConversationRepo private constructor() {
         }
     }
 
-    fun fetchResponse(context: Context, userMsg: String): LiveData<List<Conversation>> {
+    fun fetchResponse(userMsg: String): LiveData<List<Conversation>> {
         if (!TextUtils.isEmpty(userMsg)){
             insertUserMsg(userMsg)
-            githubNetworkRepo.getBotResponse(context, userMsg)
+            githubNetworkRepo.getBotResponse( userMsg)
         }
 
         return conversationDao.getConversation()

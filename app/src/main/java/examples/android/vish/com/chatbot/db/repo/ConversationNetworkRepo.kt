@@ -1,13 +1,13 @@
 package examples.android.vish.com.chatbot.db.repo
 
 import android.arch.lifecycle.MutableLiveData
-import android.content.Context
 import android.text.TextUtils
 import android.util.Log
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
+import examples.android.vish.com.chatbot.ChatBotApplication
 import examples.android.vish.com.chatbot.db.model.Conversation
 import org.json.JSONObject
 
@@ -28,7 +28,7 @@ class ConversationNetworkRepo private constructor() {
 
     }
 
-    fun getBotResponse(context: Context, message: String) {
+    fun getBotResponse( message: String) {
 
         val request = JsonObjectRequest(URL + message, null,
                 Response.Listener<JSONObject> { response ->
@@ -48,7 +48,7 @@ class ConversationNetworkRepo private constructor() {
                     error.printStackTrace()
                 })
 
-        Volley.newRequestQueue(context).add(request)
+        Volley.newRequestQueue(ChatBotApplication.appInstance).add(request)
 
     }
 
