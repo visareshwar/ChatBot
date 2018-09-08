@@ -34,6 +34,7 @@ class ChatActivity : AppCompatActivity() {
         conversationAdapter = ConversationAdapter(mConversationList);
 
         val linearLayoutManager = LinearLayoutManager(this)
+        linearLayoutManager.setStackFromEnd(true);
         conversation_list.layoutManager = linearLayoutManager
         conversation_list.adapter = conversationAdapter
 
