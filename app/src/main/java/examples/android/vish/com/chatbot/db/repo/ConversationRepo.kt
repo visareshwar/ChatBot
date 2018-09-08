@@ -2,6 +2,7 @@ package examples.android.vish.com.chatbot.db.repo
 
 import android.arch.lifecycle.LiveData
 import android.content.Context
+import android.text.TextUtils
 import examples.android.vish.com.chatbot.db.dao.ConversationDao
 import examples.android.vish.com.chatbot.db.model.Conversation
 import examples.android.vish.com.chatbot.util.AppExecutor
@@ -33,8 +34,11 @@ class ConversationRepo private constructor() {
     }
 
     fun fetchResponse(context: Context, userMsg: String): LiveData<List<Conversation>> {
-        insertUserMsg(userMsg)
-        githubNetworkRepo.getBotResponse(context, userMsg)
+        if (!TextUtils.isEmpty(userMsg)){
+            insertUserMsg(userMsg)
+            githubNetworkRepo.getBotResponse(context, userMsg)
+        }
+
         return conversationDao.getConversation()
     }
 

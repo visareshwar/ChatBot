@@ -34,9 +34,10 @@ class ConversationNetworkRepo private constructor() {
                 Response.Listener<JSONObject> { response ->
                     Log.d("ConversationNetworkRepo", response.toString())
                     val conversation = response.optJSONObject("message")
-                    if (conversation != null && TextUtils.isEmpty(conversation.toString())) {
+                    if (conversation != null && !TextUtils.isEmpty(conversation.toString())) {
                         val gson = Gson()
                         val conversationEntity = gson.fromJson(conversation.toString(), Conversation::class.java)
+                        conversationEntity.isBot = true
                         currentPrListLiveData.postValue(conversationEntity)
                     }
 

@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
 @Entity
 class Conversation(
         @SerializedName("message") val message: String, // Same as before! Doing great
-        val isBot: Boolean = false
+        var isBot: Boolean = false
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
