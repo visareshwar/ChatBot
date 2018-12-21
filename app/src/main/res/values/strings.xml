@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ChatBot</string>
+    <string name="test_str">Test String</string>
 </resources>
